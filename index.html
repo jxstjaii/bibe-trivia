@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bible Trivia Game</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    .answers button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .correct {
+      background-color: #c8e6c9;
+    }
+    .wrong {
+      background-color: #ffcdd2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bible Trivia Game</h1>
+  <div id="game" class="question-box">
+    <p id="question">Loading...</p>
+    <div class="answers" id="answers"></div>
+    <p id="score"></p>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Who built the ark?",
+        options: ["Moses", "Noah", "Abraham", "David"],
+        answer: "Noah"
+      },
+      {
+        question: "What is the first book of the Bible?",
+        options: ["Exodus", "Psalms", "Genesis", "Matthew"],
+        answer: "Genesis"
+      },
+      {
+        question: "How many days did God take to create the world?",
+        options: ["3", "5", "6", "7"],
+        answer: "6"
+      },
+      {
+        question: "Who was swallowed by a great fish?",
+        options: ["Elijah", "Jonah", "Paul", "Peter"],
+        answer: "Jonah"
+      },
+      {
+        question: "Where was Jesus born?",
+        options: ["Nazareth", "Jerusalem", "Bethlehem", "Capernaum"],
+        answer: "Bethlehem"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function showQuestion() {
+      if (current >= questions.length) {
+        document.getElementById('question').textContent = "Game Over! Your score: " + score + "/" + questions.length;
+        document.getElementById('answers').innerHTML = "";
+        return;
+      }
+
+      const q = questions[current];
+      document.getElementById('question').textContent = q.question;
+      const answersDiv = document.getElementById('answers');
+      answersDiv.innerHTML = '';
+
+      q.options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.onclick = () => {
+          if (option === q.answer) {
+            score++;
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+          }
+
+          setTimeout(() => {
+            current++;
+            showQuestion();
+          }, 800);
+        };
+        answersDiv.appendChild(btn);
+      });
+
+      document.getElementById('score').textContent = `Score: ${score}`;
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
